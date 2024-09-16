@@ -1,6 +1,7 @@
 // Render's keepAlive
 require('dotenv').config();
 const keepAlive = require('./server');
+keepAlive();
 
 const cp = require("child_process");
 
