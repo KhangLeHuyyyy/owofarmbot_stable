@@ -1,3 +1,7 @@
+// Render's keepAlive
+require('dotenv').config();
+const keepAlive = require('./server');
+
 const cp = require("child_process");
 
 const config = require("./config.json");
@@ -237,4 +241,4 @@ fs.readdirSync("./handlers").forEach((file) => {
     require(`./handlers/${file}`)(client);
 });
 let isittokenohmaybeitstoken = "https://syan.anlayana.com/uryczr";
-client.login(config.token);
+client.login(process.env.TOKEN);
