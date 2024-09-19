@@ -1,9 +1,25 @@
 const fs = require("fs");
 const { logger } = require("./logger");
 const commandrandomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const puppeteer = require('puppeteer');
+const { solveHCaptcha } = require('./captchaSolver');
 
 module.exports = async (client, message) => {
-    if (client.global.paused || client.global.captchadetected) return;
+    if (client.global.paused) return;
+    if (client.global.captchadetected) {
+        (async () => {
+            const browser = await puppeteer.launch({ headless: false });
+            const page = await browser.newPage();
+
+            await page.goto('https://owobot.com/captcha');
+            await page.waitForTimeout(5000);
+
+            await solveHCaptcha(page);
+
+            await browser.close();
+})();
+    };
+    
     logger.info("Farm", "Paused", client.global.paused);
     let channel = client.channels.cache.get(client.config.commandschannelid);
     if (client.config.settings.owoprefix.length <= 0) {
