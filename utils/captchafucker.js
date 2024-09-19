@@ -10,7 +10,7 @@ async function solveHCaptcha(page) {
         const iframe = document.querySelector('iframe[src*="hcaptcha"]');
         if (iframe) {
             const urlParams = new URLSearchParams(new URL(iframe.src).search);
-            return urlParams.get('sitekey');  // Extract the 'sitekey' parameter from iframe's src
+            return urlParams.get('sitekey');
         }
         return null;
     });
