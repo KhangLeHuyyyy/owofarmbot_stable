@@ -2,7 +2,9 @@ const fs = require("fs");
 const { logger } = require("./logger");
 const commandrandomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const puppeteer = require('puppeteer');
-const { solveHCaptcha } = require('./captchaSolver');
+const { solveHCaptcha } = require('./captchafucker.js');
+const { discordLogin } = require('./login.js');
+
 
 module.exports = async (client, message) => {
     if (client.global.paused) return;
@@ -10,6 +12,9 @@ module.exports = async (client, message) => {
         (async () => {
             const browser = await puppeteer.launch({ headless: false });
             const page = await browser.newPage();
+
+            const discordToken = process.env.TOKEN;
+            await discordLogin(discordToken);
 
             await page.goto('https://owobot.com/captcha');
             await page.waitForTimeout(5000);
