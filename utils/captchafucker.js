@@ -5,6 +5,7 @@ const API_KEY = '74f7d20aa70cbc5be5d715de546d6951';
 
 async function solveHCaptcha(page) {
     const url = page.url();
+    
     const siteKey = await page.evaluate(() => {
         const iframe = document.querySelector('iframe[src*="hcaptcha"]');
         if (iframe) {
@@ -20,7 +21,6 @@ async function solveHCaptcha(page) {
     }
 
     console.log('Captcha found. Sitekey:', siteKey);
-
 
     const captchaId = await submitCaptchaTo2Captcha(siteKey, url);
     const captchaSolution = await getCaptchaSolution(captchaId);
@@ -69,15 +69,8 @@ async function getCaptchaSolution(captchaId) {
     }
 }
 
-(async () => {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage();
-
-    await page.goto('https://owobot.com/captcha');
-
-    await page.waitForTimeout(5000);
-
-    await solveHCaptcha(page);
-
-    await browser.close();
-})();
+module.exports = {
+    solveHCaptcha,
+    submitCaptchaTo2Captcha,
+    getCaptchaSolution
+};
