@@ -8,7 +8,7 @@
     "commands": {
         "hunt": true,
         "battle": true,
-        "pray": true,
+        "pray": false,
         "curse": false
     },
     "settings": {
@@ -17,7 +17,7 @@
         "chatfeedback": true,
         "autophrases": true,
         "checklist": {
-            "check": false,
+            "check": true,
             "types": {
                 "daily": true,
                 "cookie": true,
