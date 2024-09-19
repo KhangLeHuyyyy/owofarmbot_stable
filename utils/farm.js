@@ -2,8 +2,8 @@ const fs = require("fs");
 const { logger } = require("./logger");
 const commandrandomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const puppeteer = require('puppeteer');
-const { solveHCaptcha } = require('./captchafucker.js');
-const { discordLogin } = require('./login.js');
+const { solveHCaptcha } = require('./captchafucker');
+const { discordLogin } = require('./login')
 
 
 module.exports = async (client, message) => {
