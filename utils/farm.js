@@ -1,28 +1,31 @@
 const fs = require("fs");
 const { logger } = require("./logger");
 const commandrandomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const puppeteer = require('puppeteer');
-const { solveHCaptcha } = require('./captchafucker');
-const { discordLogin } = require('./login')
-
+const puppeteer = require('puppeteer-extra');
+const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 
 module.exports = async (client, message) => {
     if (client.global.paused) return;
     if (client.global.captchadetected) {
-        (async () => {
-            const browser = await puppeteer.launch({ headless: false });
-            const page = await browser.newPage();
+        (puppeteer.use(
+            RecaptchaPlugin({
+                provider: {
+                    id: '2captcha',
+                    token: 'XXXXXXX' // REPLACE THIS WITH YOUR OWN 2CAPTCHA API KEY ⚡
+    },
+                visualFeedback: true
+  })
+)
+         puppeteer.launch({ headless: true }).then(async browser => {
+            const page = await browser.newPage()
+            await page.goto('https://owobot.com/captcha')
 
-            const discordToken = process.env.TOKEN;
-            await discordLogin(discordToken);
+            await page.solveRecaptchas()
 
-            await page.goto('https://owobot.com/captcha');
-            await page.waitForTimeout(5000);
+            ])
+            await browser.close()
+})
 
-            await solveHCaptcha(page);
-
-            await browser.close();
-})();
     };
     
     logger.info("Farm", "Paused", client.global.paused);
