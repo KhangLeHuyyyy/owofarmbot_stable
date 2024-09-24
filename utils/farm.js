@@ -1,32 +1,9 @@
 const fs = require("fs");
 const { logger } = require("./logger");
 const commandrandomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const puppeteer = require('puppeteer-extra');
-const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 
 module.exports = async (client, message) => {
-    if (client.global.paused) return;
-    if (client.global.captchadetected) {
-        (puppeteer.use(
-            RecaptchaPlugin({
-                provider: {
-                    id: '2captcha',
-                    token: 'XXXXXXX' // REPLACE THIS WITH YOUR OWN 2CAPTCHA API KEY ⚡
-    },
-                visualFeedback: true
-  })
-)
-         puppeteer.launch({ headless: true }).then(async browser => {
-            const page = await browser.newPage()
-            await page.goto('https://owobot.com/captcha')
-
-            await page.solveRecaptchas()
-
-            ])
-            await browser.close()
-})
-
-    };
+    if (client.global.paused || client.global.captchadetected) return;
     
     logger.info("Farm", "Paused", client.global.paused);
     let channel = client.channels.cache.get(client.config.commandschannelid);
@@ -588,13 +565,13 @@ async function hunt(client, channel) {
                     }
                 }
             }
-            await client.delay(1000);
+            await client.delay(Math.floor(Math.random()*6900)+2000);
             client.global.hunt = false;
         });
     if (client.config.settings.autophrases) {
         await elaina2(client, channel);
     }
-    await client.delay(10500);
+    await client.delay(30000);
 
     if (client.config.settings.inventory.check) {
         await inventory(client, channel);
@@ -609,7 +586,7 @@ async function hunt(client, channel) {
             client.global.checklist
         )
             return;
-        if (client.global.battle) await client.delay(1500);
+        if (client.global.battle) await client.delay(Math.floor(Math.random()*4000)+2000));
 
         client.global.hunt = true;
         await channel
@@ -672,12 +649,12 @@ async function hunt(client, channel) {
         if (client.config.settings.autophrases) {
             await elaina2(client, channel);
         }
-        await client.delay(10500);
+        await client.delay(30000);
 
         if (client.config.settings.inventory.check) {
             await inventory(client, channel);
         }
-    }, 16200);
+    }, 20000);
 }
 
 async function battle(client, channel) {
@@ -689,7 +666,7 @@ async function battle(client, channel) {
         client.global.inventory
     )
         return;
-    if (client.global.hunt) await client.delay(1500);
+    if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000));
     client.global.battle = true;
     await channel
         .send({
@@ -717,7 +694,7 @@ async function battle(client, channel) {
             client.global.inventory
         )
             return;
-        if (client.global.hunt) await client.delay(1500);
+        if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000));
         client.global.battle = true;
         await channel
             .send({
@@ -735,7 +712,7 @@ async function battle(client, channel) {
                 );
                 client.global.battle = false;
             });
-    }, 18400);
+    }, 20000);
 }
 
 async function use(client, channel, item, count, where) {
@@ -764,6 +741,17 @@ async function sell(client, channel) {
         .then(async () => {});
 }
 
+async function offline(client, channel) {
+    if (client.global.paused || client.global.captchadetected) return;
+    if (client.global.hunt || client.global.battle || client.global.inventory) {
+        const rando = Math.floor(Math.random()*50)+1);
+        if (rando >= 40 || rando <= 15) {
+            await client.user.setPresence({status: 'offline'});
+            await client.delay(Math.floor(Math.random()*600000)+180000))
+            await client.user.setPresence({status: 'idle'})
+        }
+    }
+}
 /**
  * OTHER FUNCTIONS
  *
