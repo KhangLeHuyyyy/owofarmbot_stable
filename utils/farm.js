@@ -572,6 +572,7 @@ async function hunt(client, channel) {
         await elaina2(client, channel);
     }
     await client.delay(30000);
+    await offline(client, channel);
 
     if (client.config.settings.inventory.check) {
         await inventory(client, channel);
@@ -649,6 +650,7 @@ async function hunt(client, channel) {
         if (client.config.settings.autophrases) {
             await elaina2(client, channel);
         }
+        await offline(client, channel);
         await client.delay(30000);
 
         if (client.config.settings.inventory.check) {
@@ -740,19 +742,6 @@ async function sell(client, channel) {
         })
         .then(async () => {});
 }
-
-async function offline(client, channel) {
-    if (client.global.paused || client.global.captchadetected) return;
-    if (client.global.hunt || client.global.battle || client.global.inventory) {
-        const rando = Math.floor(Math.random()*50)+1);
-        if (rando >= 40 || rando <= 15) {
-            await client.user.setPresence({status: 'offline'});
-            await client.delay(Math.floor(Math.random()*600000)+180000);
-            await client.user.setPresence({status: 'idle'});
-        }
-    }
-    logger.info('Turning off the bot temporaryily');
-}
 /**
  * OTHER FUNCTIONS
  *
@@ -778,4 +767,16 @@ async function elaina2(client, channel) {
         await channel.send({ content: ilu });
         logger.info("Farm", "Phrases", `Successfuly Sended`);
     });
+}
+async function offline(client, channel) {
+    if (client.global.paused || client.global.captchadetected) return;
+    if (client.global.hunt || client.global.inventory) {
+        const rando = Math.floor(Math.random()*50)+1);
+        if (rando >= 40 || rando <= 15) {
+            await client.user.setPresence({status: 'offline'});
+            await client.delay(Math.floor(Math.random()*600000)+180000);
+            await client.user.setPresence({status: 'idle'});
+        }
+    }
+    logger.info('Turning off the bot temporaryily');
 }
