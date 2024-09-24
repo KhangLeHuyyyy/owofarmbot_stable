@@ -508,7 +508,7 @@ async function hunt(client, channel) {
         client.global.checklist
     )
         return;
-    if (client.global.battle) await client.delay(1500);
+    if (client.global.battle) await client.delay(Math.floor(Math.random()*4000)+2000);
     client.global.hunt = true;
     await channel
         .send({
@@ -586,7 +586,7 @@ async function hunt(client, channel) {
             client.global.checklist
         )
             return;
-        if (client.global.battle) await client.delay(Math.floor(Math.random()*4000)+2000));
+        if (client.global.battle) await client.delay(Math.floor(Math.random()*4000)+2000);
 
         client.global.hunt = true;
         await channel
@@ -666,7 +666,7 @@ async function battle(client, channel) {
         client.global.inventory
     )
         return;
-    if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000));
+    if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000);
     client.global.battle = true;
     await channel
         .send({
@@ -694,7 +694,7 @@ async function battle(client, channel) {
             client.global.inventory
         )
             return;
-        if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000));
+        if (client.global.hunt) await client.delay(Math.floor(Math.random()*4000)+2000);
         client.global.battle = true;
         await channel
             .send({
@@ -747,7 +747,7 @@ async function offline(client, channel) {
         const rando = Math.floor(Math.random()*50)+1);
         if (rando >= 40 || rando <= 15) {
             await client.user.setPresence({status: 'offline'});
-            await client.delay(Math.floor(Math.random()*600000)+180000));
+            await client.delay(Math.floor(Math.random()*600000)+180000);
             await client.user.setPresence({status: 'idle'});
         }
     }
