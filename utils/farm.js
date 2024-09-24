@@ -771,7 +771,7 @@ async function elaina2(client, channel) {
 async function offline(client, channel) {
     if (client.global.paused || client.global.captchadetected) return;
     if (client.global.hunt || client.global.inventory) {
-        const rando = Math.floor(Math.random()*50)+1);
+        const rando = Math.floor(Math.random()*50)+1;
         if (rando >= 40 || rando <= 15) {
             await client.user.setPresence({status: 'offline'});
             await client.delay(Math.floor(Math.random()*600000)+180000);
