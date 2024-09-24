@@ -747,10 +747,11 @@ async function offline(client, channel) {
         const rando = Math.floor(Math.random()*50)+1);
         if (rando >= 40 || rando <= 15) {
             await client.user.setPresence({status: 'offline'});
-            await client.delay(Math.floor(Math.random()*600000)+180000))
-            await client.user.setPresence({status: 'idle'})
+            await client.delay(Math.floor(Math.random()*600000)+180000));
+            await client.user.setPresence({status: 'idle'});
         }
     }
+    logger.info('Turning off the bot temporaryily');
 }
 /**
  * OTHER FUNCTIONS
